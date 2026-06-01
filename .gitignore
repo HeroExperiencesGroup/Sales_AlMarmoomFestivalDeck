@@ -1,0 +1,11 @@
+# Node tooling (image conversion + PDF extraction)
+**/node_modules/
+**/package-lock.json
+
+# PDF extraction working directory (regenerable from the source PDF)
+_tmp_pdf/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
