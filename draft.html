@@ -674,153 +674,43 @@
        Slide 7 — Time scrubber + palette shift
        ============================================================ */
     .scrubber-slide {
-      transition: background 700ms ease, color 700ms ease;
-      position: relative;
-      overflow: hidden;
+      transition: background 600ms ease, color 600ms ease;
     }
-    /* Real Al Marmoom environment palettes — vertical sky→ground gradients.
-       Each phase reads as a real moment in the desert day, not a colour swatch. */
-    .scrubber-slide[data-mood="dawn"] {
-      background: linear-gradient(180deg,
-        #2B1838 0%,           /* pre-sunrise indigo */
-        #6B3651 18%,          /* mauve horizon */
-        #D87B5C 42%,          /* warm coral */
-        #F2C698 62%,           /* peach */
-        #A87650 82%,           /* sand at first light */
-        #4D2E1A 100%);        /* dune shadow */
-    }
-    .scrubber-slide[data-mood="morning"] {
-      background: linear-gradient(180deg,
-        #A8D4E5 0%,           /* clear morning sky */
-        #D8E0D2 35%,          /* haze near horizon */
-        #E5CC93 58%,          /* warm sand */
-        #B8854C 85%,
-        #6E4A26 100%);
-    }
-    .scrubber-slide[data-mood="daytime"] {
-      background: linear-gradient(180deg,
-        #7AB8DA 0%,           /* high blue sky */
-        #BFD4E0 28%,
-        #E0C895 50%,          /* mid-day sand */
-        #BD9258 80%,
-        #7A552A 100%);
-    }
-    .scrubber-slide[data-mood="cultural"] {
-      background: linear-gradient(180deg,
-        #C99860 0%,           /* afternoon warming */
-        #E0B57A 25%,
-        #D08850 52%,          /* late-afternoon glow */
-        #8C5230 82%,
-        #4D2A15 100%);
-    }
-    .scrubber-slide[data-mood="golden"] {
-      background: linear-gradient(180deg,
-        #DC4E1E 0%,           /* burning sunset */
-        #F08A45 22%,
-        #E8A858 45%,
-        #B85820 70%,
-        #5E2410 100%);        /* long shadow */
-    }
+    /* Original v1 palette — soft diagonal gradients. The slide bottom
+       blends naturally with the parchment body background, so no visible
+       seam on tall viewports. Only the two dark moods (celebration +
+       after-dark) need text-colour overrides below.                     */
+    .scrubber-slide[data-mood="dawn"]      { background: linear-gradient(135deg, #F7E4C8 0%, #F0D4A6 100%); }
+    .scrubber-slide[data-mood="morning"]   { background: linear-gradient(135deg, #F5F0E5 0%, #E9DDC4 100%); }
+    .scrubber-slide[data-mood="daytime"]   { background: linear-gradient(135deg, #EDEAE2 0%, #DFD7C2 100%); }
+    .scrubber-slide[data-mood="cultural"]  { background: linear-gradient(135deg, #E8D7B3 0%, #D4B581 100%); }
+    .scrubber-slide[data-mood="golden"]    { background: linear-gradient(135deg, #E6B66E 0%, #B8783A 100%); }
     .scrubber-slide[data-mood="celebration"] {
-      background: linear-gradient(180deg,
-        #1A1240 0%,           /* twilight */
-        #2D2862 28%,
-        #1F1A4A 55%,
-        #0C0828 85%,
-        #050218 100%);        /* deep dune black */
+      background: linear-gradient(135deg, #2B2348 0%, #0F1130 100%);
       color: var(--ink-paper);
     }
     .scrubber-slide[data-mood="celebration"] .display-l,
-    .scrubber-slide[data-mood="celebration"] .scrub-phase h3 {
-      color: var(--gold-light);
-    }
+    .scrubber-slide[data-mood="celebration"] .scrub-phase h3 { color: var(--gold-light); }
     .scrubber-slide[data-mood="celebration"] .scrub-phase p,
-    .scrubber-slide[data-mood="celebration"] .scrub-phase .body {
-      color: var(--ink-paper-dim);
-    }
+    .scrubber-slide[data-mood="celebration"] .scrub-phase .body { color: var(--ink-paper-dim); }
     .scrubber-slide[data-mood="celebration"] .scrub-phase .pill {
       background: rgba(201, 169, 110, 0.15); color: var(--gold-light);
       border-color: rgba(201, 169, 110, 0.3);
     }
     .scrubber-slide[data-mood="after-dark"] {
-      background: linear-gradient(180deg,
-        #02030F 0%,           /* deepest night */
-        #0A0820 35%,
-        #14102E 65%,
-        #1E1838 85%,
-        #0F0A22 100%);
+      background: linear-gradient(135deg, #0A0A0F 0%, #1A1530 100%);
       color: var(--ink-paper);
     }
-
-    /* Slide 7 — Decorative atmosphere layer (dune silhouette + stars).
-       Sits beneath the content but above the gradient. Stars fade in for
-       celebration + after-dark moods; dunes deepen on dark moods.        */
-    .scrub-atmosphere {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .scrub-stars {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 60%;
-      opacity: 0;
-      transition: opacity 800ms ease;
-    }
-    .scrub-stars circle { fill: #F4EFE0; }
-    .scrubber-slide[data-mood="dawn"]        .scrub-stars { opacity: 0.18; }
-    .scrubber-slide[data-mood="celebration"] .scrub-stars { opacity: 0.85; }
-    .scrubber-slide[data-mood="after-dark"]  .scrub-stars { opacity: 1; }
-    .scrub-dunes {
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 13%;
-      transition: opacity 600ms ease, color 600ms ease;
-      color: rgba(20, 12, 4, 0.32);
-    }
-    /* preserveAspectRatio="none" was stretching the dunes — the bottom of
-       the path floated mid-air on tall viewports. xMidYMax slice anchors
-       the path to the bottom of the layer instead.                       */
-    .scrub-dunes svg { display: block; width: 100%; height: 100%; }
-    .scrubber-slide[data-mood="dawn"]        .scrub-dunes { color: rgba(20, 12, 4, 0.55); }
-    .scrubber-slide[data-mood="golden"]      .scrub-dunes { color: rgba(45, 18, 4, 0.7); }
-    .scrubber-slide[data-mood="celebration"] .scrub-dunes { color: rgba(2, 0, 12, 0.78); }
-    .scrubber-slide[data-mood="after-dark"]  .scrub-dunes { color: rgba(0, 0, 0, 0.85); }
-    /* The slide's text/shell sits above the atmosphere */
-    .scrubber-slide > .stack-md,
-    .scrubber-slide > .scrub-shell { position: relative; z-index: 1; }
     .scrubber-slide[data-mood="after-dark"] .display-l,
-    .scrubber-slide[data-mood="after-dark"] .scrub-phase h3 {
-      color: var(--gold-light);
-    }
+    .scrubber-slide[data-mood="after-dark"] .scrub-phase h3 { color: var(--gold-light); }
     .scrubber-slide[data-mood="after-dark"] .scrub-phase p,
-    .scrubber-slide[data-mood="after-dark"] .scrub-phase .body {
-      color: var(--ink-paper-dim);
-    }
+    .scrubber-slide[data-mood="after-dark"] .scrub-phase .body { color: var(--ink-paper-dim); }
     .scrubber-slide[data-mood="after-dark"] .scrub-phase .pill {
       background: rgba(201, 169, 110, 0.15); color: var(--gold-light);
       border-color: rgba(201, 169, 110, 0.3);
     }
     .scrubber-slide .eyebrow,
-    .scrubber-slide .display-l {
-      transition: color 600ms ease;
-    }
-    /* Title legibility per mood. The four warm/dark moods (dawn, cultural,
-       golden, celebration, after-dark) flip the eyebrow + headline to a
-       soft warm cream so they read cleanly against the orange/brown/ink
-       gradients. Morning + daytime keep dark text because their top is
-       cool blue sky and dark text reads great.                            */
-    .scrubber-slide[data-mood="dawn"]        .eyebrow,
-    .scrubber-slide[data-mood="cultural"]    .eyebrow,
-    .scrubber-slide[data-mood="golden"]      .eyebrow,
-    .scrubber-slide[data-mood="celebration"] .eyebrow,
-    .scrubber-slide[data-mood="after-dark"]  .eyebrow { color: #F4DFB0; }
-    .scrubber-slide[data-mood="dawn"]        .display-l,
-    .scrubber-slide[data-mood="cultural"]    .display-l,
-    .scrubber-slide[data-mood="golden"]      .display-l,
-    .scrubber-slide[data-mood="celebration"] .display-l,
-    .scrubber-slide[data-mood="after-dark"]  .display-l { color: #FFF6E0; text-shadow: 0 2px 12px rgba(0,0,0,0.18); }
+    .scrubber-slide .display-l { transition: color 600ms ease; }
 
     .scrub-shell {
       margin-top: 28px;
@@ -956,44 +846,19 @@
     .scrub-labels .lab:hover, .scrub-labels .lab.is-active {
       color: var(--gold); font-weight: 600;
     }
-    /* Scrub-axis labels: the default muted-text on the default cream-axis
-       reads fine on the cool light moods (morning, daytime) but the warm
-       and dark moods all need lighter labels for legibility. Active label
-       gets a strong warm-cream and bumped weight so the current phase is
-       always obvious.                                                     */
-    .scrubber-slide[data-mood="dawn"]        .scrub-labels .lab,
-    .scrubber-slide[data-mood="cultural"]    .scrub-labels .lab,
-    .scrubber-slide[data-mood="golden"]      .scrub-labels .lab,
+    /* Dark moods only — celebration + after-dark need lighter labels so
+       the phase row reads on the deep indigo gradient. All other moods
+       use the default muted-text colour on the light cream gradients.   */
     .scrubber-slide[data-mood="celebration"] .scrub-labels .lab,
-    .scrubber-slide[data-mood="after-dark"]  .scrub-labels .lab {
-      color: rgba(255, 248, 224, 0.72);
-    }
-    .scrubber-slide[data-mood="dawn"]        .scrub-labels .lab.is-active,
-    .scrubber-slide[data-mood="cultural"]    .scrub-labels .lab.is-active,
-    .scrubber-slide[data-mood="golden"]      .scrub-labels .lab.is-active,
+    .scrubber-slide[data-mood="after-dark"]  .scrub-labels .lab { color: var(--ink-paper-faint); }
     .scrubber-slide[data-mood="celebration"] .scrub-labels .lab.is-active,
-    .scrubber-slide[data-mood="after-dark"]  .scrub-labels .lab.is-active {
-      color: #FFF6E0;
-      font-weight: 700;
-    }
-    /* Unpassed ticks on warm/dark moods: switch the white interior to a
-       deep ink so the dot reads as a "future" marker on amber/orange
-       gradients. Passed ticks stay gold-light so the trail is obvious. */
-    .scrubber-slide[data-mood="dawn"]        .scrub-tick,
-    .scrubber-slide[data-mood="cultural"]    .scrub-tick,
-    .scrubber-slide[data-mood="golden"]      .scrub-tick,
+    .scrubber-slide[data-mood="after-dark"]  .scrub-labels .lab.is-active { color: var(--gold-light); }
     .scrubber-slide[data-mood="celebration"] .scrub-tick,
     .scrubber-slide[data-mood="after-dark"]  .scrub-tick {
-      background: rgba(20, 8, 0, 0.55);
-      border-color: var(--gold-light);
+      background: rgba(10, 10, 30, 0.9); border-color: var(--gold-light);
     }
-    .scrubber-slide[data-mood="dawn"]        .scrub-tick.is-passed,
-    .scrubber-slide[data-mood="cultural"]    .scrub-tick.is-passed,
-    .scrubber-slide[data-mood="golden"]      .scrub-tick.is-passed,
     .scrubber-slide[data-mood="celebration"] .scrub-tick.is-passed,
-    .scrubber-slide[data-mood="after-dark"]  .scrub-tick.is-passed {
-      background: var(--gold-light);
-    }
+    .scrubber-slide[data-mood="after-dark"]  .scrub-tick.is-passed { background: var(--gold-light); }
 
     /* ============================================================
        Slide 8 — Differentiators
@@ -1920,68 +1785,6 @@
 
       <!-- ── 7 · DAILY FLOW / TIME SCRUBBER ───────────────────────── -->
       <section class="slide scrubber-slide" data-slide="7" data-mood="dawn" id="scrubberSlide">
-        <!-- Atmosphere: stars (fade in at night) + dune silhouette (always visible).
-             Sits behind the content via z-index: 0. The 60 stars are pseudo-random;
-             positions hand-tuned to avoid overlapping the text card.                -->
-        <div class="scrub-atmosphere" aria-hidden="true">
-          <svg class="scrub-stars" viewBox="0 0 1920 600" preserveAspectRatio="none">
-            <circle cx="142"  cy="78"  r="1.2"/>
-            <circle cx="245"  cy="44"  r="1.6"/>
-            <circle cx="318"  cy="120" r="1.0"/>
-            <circle cx="402"  cy="62"  r="1.3"/>
-            <circle cx="485"  cy="156" r="1.5"/>
-            <circle cx="556"  cy="92"  r="1.0"/>
-            <circle cx="624"  cy="180" r="1.8"/>
-            <circle cx="708"  cy="48"  r="1.1"/>
-            <circle cx="782"  cy="142" r="1.4"/>
-            <circle cx="848"  cy="80"  r="1.0"/>
-            <circle cx="920"  cy="200" r="1.6"/>
-            <circle cx="1004" cy="56"  r="1.2"/>
-            <circle cx="1078" cy="172" r="1.0"/>
-            <circle cx="1142" cy="106" r="1.5"/>
-            <circle cx="1218" cy="68"  r="1.3"/>
-            <circle cx="1284" cy="218" r="1.1"/>
-            <circle cx="1356" cy="142" r="1.8"/>
-            <circle cx="1422" cy="50"  r="1.0"/>
-            <circle cx="1488" cy="186" r="1.4"/>
-            <circle cx="1556" cy="98"  r="1.2"/>
-            <circle cx="1624" cy="60"  r="1.6"/>
-            <circle cx="1698" cy="172" r="1.0"/>
-            <circle cx="1762" cy="118" r="1.5"/>
-            <circle cx="1828" cy="74"  r="1.2"/>
-            <circle cx="86"   cy="232" r="1.3"/>
-            <circle cx="180"  cy="294" r="1.0"/>
-            <circle cx="272"  cy="346" r="1.5"/>
-            <circle cx="370"  cy="268" r="1.1"/>
-            <circle cx="448"  cy="324" r="1.4"/>
-            <circle cx="530"  cy="382" r="1.6"/>
-            <circle cx="612"  cy="296" r="1.0"/>
-            <circle cx="690"  cy="358" r="1.2"/>
-            <circle cx="780"  cy="312" r="1.5"/>
-            <circle cx="864"  cy="248" r="1.0"/>
-            <circle cx="956"  cy="370" r="1.3"/>
-            <circle cx="1042" cy="296" r="1.1"/>
-            <circle cx="1124" cy="346" r="1.6"/>
-            <circle cx="1208" cy="264" r="1.0"/>
-            <circle cx="1296" cy="318" r="1.5"/>
-            <circle cx="1380" cy="378" r="1.2"/>
-            <circle cx="1462" cy="304" r="1.4"/>
-            <circle cx="1544" cy="246" r="1.0"/>
-            <circle cx="1628" cy="332" r="1.6"/>
-            <circle cx="1714" cy="282" r="1.1"/>
-            <circle cx="1796" cy="354" r="1.3"/>
-            <circle cx="1864" cy="222" r="1.0"/>
-          </svg>
-          <svg class="scrub-dunes" viewBox="0 0 1920 140" preserveAspectRatio="none">
-            <!-- Two layered horizon lines — flatter than dunes, so they
-                 read as a desert skyline rather than a tall ridge that
-                 gets clipped at the slide boundary. Both paths fill down
-                 to y=140 (the SVG/layer bottom) so the bottom of the
-                 slide is solid colour regardless of viewport height. -->
-            <path d="M0,140 L0,84 C160,62 260,72 410,68 C560,64 660,88 820,84 C980,80 1080,58 1240,64 C1400,70 1500,90 1650,84 C1800,78 1880,68 1920,72 L1920,140 Z" fill="currentColor"/>
-            <path d="M0,140 L0,108 C140,92 280,100 420,98 C560,96 680,112 840,108 C1000,104 1120,90 1280,94 C1440,98 1560,114 1720,110 C1860,107 1900,102 1920,104 L1920,140 Z" fill="currentColor" opacity="0.55"/>
-          </svg>
-        </div>
         <div class="stack-md">
           <span class="eyebrow">From Dawn to Desert After Dark</span>
           <h2 class="display-l">A day that unfolds across<br>seven horizons.</h2>
@@ -2387,13 +2190,15 @@
        end-colour changes per mood; see updateScrubberBg() in the
        scrubber IIFE below.                                            */
     const MOOD_BG = {
-      dawn:        '#3D2814',
-      morning:     '#6E4A26',
-      daytime:     '#7A552A',
-      cultural:    '#4D2A15',
-      golden:      '#5E2410',
-      celebration: '#050218',
-      'after-dark':'#0F0A22',
+      // Match the bottom-right corner of each diagonal gradient so the
+      // backdrop blends invisibly with the scrubber slide.
+      dawn:        '#F0D4A6',
+      morning:     '#E9DDC4',
+      daytime:     '#DFD7C2',
+      cultural:    '#D4B581',
+      golden:      '#B8783A',
+      celebration: '#0F1130',
+      'after-dark':'#1A1530',
     };
     function updateBodyBg() {
       const active = slides[current];
