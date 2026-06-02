@@ -290,8 +290,14 @@
       border-radius: 8px;
       background: var(--bg-2);
       transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
-      cursor: default;
+      cursor: pointer;
     }
+    /* Descendants are decorative only — bubble pointer events up to the
+       card so a hover/click on the title, number, or example text is
+       indistinguishable from a hover/click on the card itself. Without
+       this, hovers landing on the title or text could trigger different
+       effective sensitivity per browser depending on text layout.       */
+    .pillar-card > * { pointer-events: none; }
     .pillar-card:hover {
       border-color: var(--gold);
       box-shadow: 0 18px 36px rgba(166, 124, 58, 0.10);
@@ -2465,6 +2471,12 @@
     async function enterPresentation() {
       hasEnteredPresentation = true;
       tapToBegin.classList.remove('is-visible');
+      // Re-arm the cover lock so an over-eager click+scroll combo at
+      // begin time doesn't blow past the hero before the viewer reads it.
+      coverLockedUntil = performance.now() + COVER_LOCK_MS;
+      // Always snap to slide 0 on begin — guarantees the cover is the
+      // first thing the viewer sees regardless of any earlier state.
+      if (current !== 0) goTo(0);
       try {
         const req = document.documentElement.requestFullscreen
                  || document.documentElement.webkitRequestFullscreen;
@@ -2522,10 +2534,34 @@
     // Expose so the scrubber can call it after a mood change.
     window.__updateBodyBg = updateBodyBg;
 
+    /* ── Cover-page protection ────────────────────────────────────────
+       Boot always lands on slide 0 (the hero), wraparound is disabled
+       at both ends so users can't accidentally back-out from the hero
+       into the CTA, and every entry to slide 0 starts a brief grace
+       window during which an accidental wheel/swipe/key press is
+       silently ignored — the goal is that a viewer cannot blow past
+       the cover before they've even seen it.                            */
+    const COVER_LOCK_MS = 2500;
+    let coverLockedUntil = 0;
+
     let animatingTimer = null;
     function goTo(idx) {
+      // Clamp at both ends — no wraparound. Cover (0) is the floor,
+      // last slide is the ceiling. Out-of-range requests are silently
+      // pinned, so a "left from cover" no-ops instead of looping back
+      // to the closing CTA.
+      const clamped = Math.max(0, Math.min(slides.length - 1, idx));
+
+      // Cover grace window — refuse to navigate AWAY from the hero
+      // during the lock period. Lock auto-expires after COVER_LOCK_MS;
+      // it also doesn't apply when navigating TO slide 0 or staying on
+      // it, so dot/arrow clicks still feel responsive.
+      if (current === 0 && clamped !== current && performance.now() < coverLockedUntil) {
+        return;
+      }
+
       const prev = current;
-      current = (idx + slides.length) % slides.length;
+      current = clamped;
       slides.forEach((s, i) => {
         s.classList.toggle('is-active', i === current);
         s.classList.toggle('is-before', i <  current);
@@ -2548,6 +2584,11 @@
       counterStaticEl.textContent = text;
 
       updateBodyBg();
+
+      // Re-arm the cover lock every time slide 0 becomes active.
+      if (current === 0) {
+        coverLockedUntil = performance.now() + COVER_LOCK_MS;
+      }
     }
 
     function buildDots() {
@@ -2650,8 +2691,14 @@
   /* ═══════════════════════════════════════════════════════════════════
      Pillar cards (Slide 3) — click toggles reveal on touch devices
      ═══════════════════════════════════════════════════════════════════ */
-  document.querySelectorAll('.pillar-card').forEach(card => {
-    card.addEventListener('click', () => card.classList.toggle('is-revealed'));
+  // Pillar-card reveal — event delegation on the grid so every card
+  // gets identical full-area click sensitivity, irrespective of which
+  // descendant the click actually lands on. The CSS sets
+  // `.pillar-card > * { pointer-events: none; }` so hovers also bubble
+  // cleanly to the card root.
+  document.querySelector('.pillar-grid')?.addEventListener('click', (e) => {
+    const card = e.target.closest('.pillar-card');
+    if (card) card.classList.toggle('is-revealed');
   });
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -2821,17 +2868,23 @@
       });
     }
 
-    // Hover updates side panel + pin highlight. Does NOT trigger the
-    // line/popup animation — that's reserved for the deliberate click.
-    function hoverActivate(zoneId) {
-      pins.forEach(p => p.classList.toggle('is-active', p.dataset.zone === zoneId && !p.classList.contains('is-selected')));
-      render(zoneId);
-    }
-
+    // Click-only exploration: a deliberate click on a pin runs the full
+    // sequence (hide pin → draw line → reveal popup) AND updates the
+    // side panel. Hover no longer changes anything except the pin's
+    // own scale (CSS :hover) so casual mouse passes don't churn the
+    // side panel out from under the viewer.
+    //
+    // Keyboard focus is still wired up so tab-then-Enter is equivalent
+    // to a click for accessibility — focus alone does nothing visible
+    // beyond the browser's default focus ring.
     pins.forEach(p => {
-      p.addEventListener('mouseenter', () => hoverActivate(p.dataset.zone));
-      p.addEventListener('focus',      () => hoverActivate(p.dataset.zone));
-      p.addEventListener('click',      () => selectPin(p, p.dataset.zone));
+      p.addEventListener('click', () => selectPin(p, p.dataset.zone));
+      p.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectPin(p, p.dataset.zone);
+        }
+      });
     });
 
     render('1');
