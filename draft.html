@@ -301,7 +301,12 @@
     .pillar-card:hover {
       border-color: var(--gold);
       box-shadow: 0 18px 36px rgba(166, 124, 58, 0.10);
-      transform: translateY(-2px);
+      /* No transform on hover — translateY(-2px) was causing a flicker
+         loop on cards whose bottom edge sat near the cursor: hover →
+         card lifts 2px → cursor falls outside → hover lost → card
+         drops → cursor back inside → repeat. Border + shadow alone
+         deliver the same "this is hot" feedback without the layout
+         shift.                                                       */
     }
     .pillar-card .pillar-num {
       font-family: 'Playfair Display', serif;
@@ -323,11 +328,14 @@
       transition: max-height 360ms ease, opacity 240ms ease, margin-top 240ms ease;
       margin-top: 0;
     }
-    .pillar-card:hover .pillar-examples,
     .pillar-card:focus-within .pillar-examples,
     .pillar-card.is-revealed .pillar-examples {
       max-height: 220px; opacity: 1; margin-top: 14px;
     }
+    /* Reveal is click-only — :hover removed from the selector so the
+       reveal can't flicker open/closed as the cursor drifts across the
+       card. Click toggles .is-revealed; keyboard tab → Enter still
+       works via :focus-within for accessibility.                      */
     .pillar-card .pillar-examples-label {
       font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
       color: var(--gold); font-weight: 600; margin-bottom: 6px;
@@ -2541,7 +2549,7 @@
        window during which an accidental wheel/swipe/key press is
        silently ignored — the goal is that a viewer cannot blow past
        the cover before they've even seen it.                            */
-    const COVER_LOCK_MS = 2500;
+    const COVER_LOCK_MS = 1500;
     let coverLockedUntil = 0;
 
     let animatingTimer = null;
@@ -2828,6 +2836,12 @@
 
       const z = zones[zoneId];
       if (!z) return;
+
+      // Update the side panel immediately on click — without this it
+      // stays frozen on whatever district was last rendered (used to
+      // be District 01 on initial load).
+      render(zoneId);
+
       const pinX = parseFloat(pin.style.left);
       const pinY = parseFloat(pin.style.top);
       const [tx, ty] = popupTarget(pinX, pinY);
