@@ -864,12 +864,70 @@
       background: rgba(10, 10, 30, 0.45);
       border-color: rgba(201, 169, 110, 0.18);
     }
+    /* Scrub axis is now [← arrow] [track] [→ arrow] in a flex row. The
+       arrows are the discoverability cue for users who don't realise
+       the handle is draggable.                                         */
+    .scrub-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
     .scrub-track {
       position: relative;
+      flex: 1;
       height: 6px;
       background: var(--border);
       border-radius: 999px;
-      margin: 0 12px;
+    }
+    .scrub-arrow {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-soft);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--gold);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      transition: background 200ms, color 200ms, border-color 200ms,
+                  transform 180ms, opacity 200ms;
+    }
+    .scrub-arrow svg { display: block; }
+    .scrub-arrow:hover:not(:disabled) {
+      background: var(--gold);
+      color: #fff;
+      border-color: var(--gold);
+      transform: scale(1.08);
+    }
+    .scrub-arrow:active:not(:disabled) { transform: scale(0.95); }
+    .scrub-arrow:disabled {
+      opacity: 0.32;
+      cursor: not-allowed;
+    }
+    /* Dark moods + image-bg variant — keep arrows legible on every state */
+    .scrubber-slide[data-mood="celebration"] .scrub-arrow,
+    .scrubber-slide[data-mood="after-dark"]  .scrub-arrow {
+      background: rgba(10, 10, 30, 0.55);
+      border-color: rgba(201, 169, 110, 0.35);
+      color: var(--gold-light);
+    }
+    .scrubber-slide[data-mood="celebration"] .scrub-arrow:hover:not(:disabled),
+    .scrubber-slide[data-mood="after-dark"]  .scrub-arrow:hover:not(:disabled) {
+      background: var(--gold-light);
+      color: var(--ink);
+      border-color: var(--gold-light);
+    }
+    .scrubber-slide.has-image-bg .scrub-arrow {
+      background: rgba(10, 10, 15, 0.55);
+      border-color: rgba(255, 246, 224, 0.32);
+      color: #FFF6E0;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .scrubber-slide.has-image-bg .scrub-arrow:hover:not(:disabled) {
+      background: rgba(255, 246, 224, 0.92);
+      color: var(--ink);
+      border-color: rgba(255, 246, 224, 0.92);
     }
     .scrubber-slide[data-mood="celebration"] .scrub-track,
     .scrubber-slide[data-mood="after-dark"] .scrub-track {
@@ -1984,16 +2042,24 @@
             <!-- populated by JS -->
           </div>
           <div class="scrub-axis">
-            <div class="scrub-track" id="scrubTrack">
-              <div class="scrub-fill" id="scrubFill"></div>
-              <button class="scrub-tick" data-phase="0" style="left: 0%"   type="button" aria-label="Dawn Horizons"></button>
-              <button class="scrub-tick" data-phase="1" style="left: 16.6%" type="button" aria-label="Morning Awakening"></button>
-              <button class="scrub-tick" data-phase="2" style="left: 33.3%" type="button" aria-label="Daytime Exploration"></button>
-              <button class="scrub-tick" data-phase="3" style="left: 50%"   type="button" aria-label="Cultural Encounters"></button>
-              <button class="scrub-tick" data-phase="4" style="left: 66.6%" type="button" aria-label="Golden Horizons"></button>
-              <button class="scrub-tick" data-phase="5" style="left: 83.3%" type="button" aria-label="Celebration Under the Stars"></button>
-              <button class="scrub-tick" data-phase="6" style="left: 100%"  type="button" aria-label="Desert After Dark"></button>
-              <div class="scrub-handle" id="scrubHandle" style="left: 0%" role="slider" tabindex="0" aria-label="Time of day">☀</div>
+            <div class="scrub-row">
+              <button class="scrub-arrow" id="scrubPrev" type="button" aria-label="Previous phase">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div class="scrub-track" id="scrubTrack">
+                <div class="scrub-fill" id="scrubFill"></div>
+                <button class="scrub-tick" data-phase="0" style="left: 0%"   type="button" aria-label="Dawn Horizons"></button>
+                <button class="scrub-tick" data-phase="1" style="left: 16.6%" type="button" aria-label="Morning Awakening"></button>
+                <button class="scrub-tick" data-phase="2" style="left: 33.3%" type="button" aria-label="Daytime Exploration"></button>
+                <button class="scrub-tick" data-phase="3" style="left: 50%"   type="button" aria-label="Cultural Encounters"></button>
+                <button class="scrub-tick" data-phase="4" style="left: 66.6%" type="button" aria-label="Golden Horizons"></button>
+                <button class="scrub-tick" data-phase="5" style="left: 83.3%" type="button" aria-label="Celebration Under the Stars"></button>
+                <button class="scrub-tick" data-phase="6" style="left: 100%"  type="button" aria-label="Desert After Dark"></button>
+                <div class="scrub-handle" id="scrubHandle" style="left: 0%" role="slider" tabindex="0" aria-label="Time of day">☀</div>
+              </div>
+              <button class="scrub-arrow" id="scrubNext" type="button" aria-label="Next phase">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
             <div class="scrub-labels" id="scrubLabels">
               <div class="lab is-active" data-phase="0">5am · Dawn</div>
@@ -2898,6 +2964,8 @@
     const fill    = document.getElementById('scrubFill');
     const handle  = document.getElementById('scrubHandle');
     const labelsEl = document.getElementById('scrubLabels');
+    const prevBtn  = document.getElementById('scrubPrev');
+    const nextBtn  = document.getElementById('scrubNext');
     if (!slide) return;
 
     function render(idx) {
@@ -2922,6 +2990,11 @@
         t.classList.toggle('is-passed', i <= idx));
       labelsEl.querySelectorAll('.lab').forEach((l, i) =>
         l.classList.toggle('is-active', i === idx));
+      // Direction-control disabled state: greys at the ends so users
+      // get a clear "you're at the start / end" cue rather than a
+      // silent no-op click.
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === phases.length - 1;
     }
     let current = 0;
     render(current);
@@ -2932,6 +3005,14 @@
     });
     labelsEl.querySelectorAll('.lab').forEach(l => {
       l.addEventListener('click', () => { current = +l.dataset.phase; render(current); });
+    });
+
+    // Prev / Next direction controls
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (current > 0) { current--; render(current); }
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      if (current < phases.length - 1) { current++; render(current); }
     });
 
     // Drag the handle along the track
@@ -2972,6 +3053,8 @@
     labelsEl.querySelectorAll('.lab').forEach(l =>
       l.addEventListener('click', markTouched, { once: true }));
     handle.addEventListener('keydown', markTouched, { once: true });
+    if (prevBtn) prevBtn.addEventListener('click', markTouched, { once: true });
+    if (nextBtn) nextBtn.addEventListener('click', markTouched, { once: true });
 
     // Keyboard on the handle
     handle.addEventListener('keydown', e => {
