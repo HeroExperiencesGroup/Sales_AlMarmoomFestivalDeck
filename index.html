@@ -13,28 +13,41 @@
        Core palette & layout — borrowed from Canvas From The Sky
        ============================================================ */
     :root {
-      --gold:        #A67C3A;
-      --gold-light:  #C9A96E;
-      --gold-soft:   rgba(166, 124, 58, 0.5);
-      --bg:          #F7F4EF;
-      --bg-2:        #FFFFFF;
-      --bg-3:        #EDEAE2;
-      --text:        #18140E;
-      --text-body:   #3C3428;
-      --text-muted:  #7A7065;
-      --border:      rgba(24, 20, 14, 0.12);
-      --ink:         #0A0A0F;
+      /* ── Dark mode palette (final review build) ──────────────────────
+         Whole deck flips by redefining these tokens — every downstream
+         rule uses var(--*) so the swap is automatic. Gold accents shift
+         to the lighter shade for use on dark; backgrounds become three
+         subtle dark variants instead of parchment / white / cream;
+         heading + body text become warm cream. Hero + CTA --ink slides
+         get an even deeper black so they still feel like "the floor". */
+      --gold:        #C9A96E;          /* primary accent (was deep amber) */
+      --gold-light:  #E5C68A;          /* highlight, slightly lifted */
+      --gold-soft:   rgba(201, 169, 110, 0.4);
+
+      /* Backgrounds — three subtle dark variants */
+      --bg:          #0F0E14;          /* default slide (was parchment) */
+      --bg-2:        #1A1822;          /* card / panel (was white) */
+      --bg-3:        #14131C;          /* alt slide (was cream) */
+
+      /* Text — warm cream */
+      --text:        #F4EFE0;
+      --text-body:   rgba(244, 239, 224, 0.78);
+      --text-muted:  rgba(244, 239, 224, 0.48);
+      --border:      rgba(244, 239, 224, 0.12);
+
+      /* Ink — deepest black, for hero (1) and CTA (11) */
+      --ink:         #060509;
       --ink-paper:   #F0EDE6;
       --ink-paper-dim:  rgba(240, 237, 230, 0.82);
       --ink-paper-faint:rgba(240, 237, 230, 0.55);
     }
     .slide--ink {
       --bg: var(--ink); --bg-2: var(--ink); --bg-3: var(--ink);
-      --text: var(--gold-light);
-      --text-body: var(--ink-paper-dim);
-      --text-muted: var(--ink-paper-faint);
+      /* text + gold are already light at root, so .slide--ink mostly
+         just deepens the background. The gold accent on hero / CTA
+         picks up an extra lift for the "premium black" feel.         */
       --gold: var(--gold-light);
-      --border: rgba(201, 169, 110, 0.18);
+      --border: rgba(244, 239, 224, 0.08);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,15 +69,16 @@
        a dark or coloured slide.                                          */
     body:has(.slide.is-active.slide--cream) { background: var(--bg-3); }
     body:has(.slide.is-active.slide--ink)   { background: var(--ink); }
-    /* Slide 7 — match the bottom of the current gradient so the dunes
-       carry through past the canvas edge into the page background.      */
-    body:has(.scrubber-slide.is-active[data-mood="dawn"])        { background: #3D2814; }
-    body:has(.scrubber-slide.is-active[data-mood="morning"])     { background: #6E4A26; }
-    body:has(.scrubber-slide.is-active[data-mood="daytime"])     { background: #7A552A; }
-    body:has(.scrubber-slide.is-active[data-mood="cultural"])    { background: #4D2A15; }
-    body:has(.scrubber-slide.is-active[data-mood="golden"])      { background: #5E2410; }
+    /* Slide 7 — match the darker base of each per-mood photo background
+       so the bleed area around the canvas blends seamlessly with the
+       active slide.                                                   */
+    body:has(.scrubber-slide.is-active[data-mood="dawn"])        { background: #0F0710; }
+    body:has(.scrubber-slide.is-active[data-mood="morning"])     { background: #0B0F1A; }
+    body:has(.scrubber-slide.is-active[data-mood="daytime"])     { background: #0A1014; }
+    body:has(.scrubber-slide.is-active[data-mood="cultural"])    { background: #1A0F08; }
+    body:has(.scrubber-slide.is-active[data-mood="golden"])      { background: #18080A; }
     body:has(.scrubber-slide.is-active[data-mood="celebration"]) { background: #050218; }
-    body:has(.scrubber-slide.is-active[data-mood="after-dark"])  { background: #0F0A22; }
+    body:has(.scrubber-slide.is-active[data-mood="after-dark"])  { background: #04030A; }
 
     .stage {
       position: fixed; inset: 0;
@@ -769,13 +783,18 @@
        blends naturally with the parchment body background, so no visible
        seam on tall viewports. Only the two dark moods (celebration +
        after-dark) need text-colour overrides below.                     */
-    .scrubber-slide[data-mood="dawn"]      { background: linear-gradient(135deg, #F7E4C8 0%, #F0D4A6 100%); }
-    .scrubber-slide[data-mood="morning"]   { background: linear-gradient(135deg, #F5F0E5 0%, #E9DDC4 100%); }
-    .scrubber-slide[data-mood="daytime"]   { background: linear-gradient(135deg, #EDEAE2 0%, #DFD7C2 100%); }
-    .scrubber-slide[data-mood="cultural"]  { background: linear-gradient(135deg, #E8D7B3 0%, #D4B581 100%); }
-    .scrubber-slide[data-mood="golden"]    { background: linear-gradient(135deg, #E6B66E 0%, #B8783A 100%); }
+    /* Dark-mode mood gradients — each phase keeps a subtle hue shift
+       (cool blue for morning, warm amber for cultural, burnt umber for
+       golden, deep indigo for celebration) but everything is darkened
+       to live in the dark theme. These fall back to ground colour if
+       the per-mood photo background fails to load.                   */
+    .scrubber-slide[data-mood="dawn"]      { background: linear-gradient(135deg, #2D1A30 0%, #1A1023 100%); }
+    .scrubber-slide[data-mood="morning"]   { background: linear-gradient(135deg, #1F2638 0%, #161D2E 100%); }
+    .scrubber-slide[data-mood="daytime"]   { background: linear-gradient(135deg, #1A2228 0%, #11181E 100%); }
+    .scrubber-slide[data-mood="cultural"]  { background: linear-gradient(135deg, #2A1F14 0%, #1B130A 100%); }
+    .scrubber-slide[data-mood="golden"]    { background: linear-gradient(135deg, #321A0E 0%, #1E0F08 100%); }
     .scrubber-slide[data-mood="celebration"] {
-      background: linear-gradient(135deg, #2B2348 0%, #0F1130 100%);
+      background: linear-gradient(135deg, #1A1240 0%, #0B0820 100%);
       color: var(--ink-paper);
     }
     .scrubber-slide[data-mood="celebration"] .display-l,
@@ -798,10 +817,23 @@
       background: rgba(201, 169, 110, 0.15); color: var(--gold-light);
       border-color: rgba(201, 169, 110, 0.3);
     }
+    /* Slide 7 background photos — one WebP per daily-flow phase.
+       Default is the dawn image; per-mood overrides swap to each
+       phase's own photo. The CSS variable indirection means every
+       reference (background + transitions) updates from a single
+       source per mood.                                              */
     .scrubber-slide.has-image-bg {
-      --scrubber-bg: url('assets/Slide%207/paradox_1.png');
+      --scrubber-bg: url('assets/07-daily-flow-dawn.webp');
       background: var(--scrubber-bg) center / cover no-repeat;
+      transition: --scrubber-bg 700ms ease;
     }
+    .scrubber-slide.has-image-bg[data-mood="dawn"]        { --scrubber-bg: url('assets/07-daily-flow-dawn.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="morning"]     { --scrubber-bg: url('assets/07-daily-flow-morning.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="daytime"]     { --scrubber-bg: url('assets/07-daily-flow-daytime.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="cultural"]    { --scrubber-bg: url('assets/07-daily-flow-cultural.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="golden"]      { --scrubber-bg: url('assets/07-daily-flow-golden.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="celebration"] { --scrubber-bg: url('assets/07-daily-flow-celebration.webp'); }
+    .scrubber-slide.has-image-bg[data-mood="after-dark"]  { --scrubber-bg: url('assets/07-daily-flow-after-dark.webp'); }
     .scrubber-slide.has-image-bg::before {
       content: '';
       position: absolute;
@@ -840,16 +872,17 @@
     }
     .scrub-phase {
       padding: 36px 44px;
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(8px);
+      background: rgba(10, 8, 18, 0.62);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid rgba(244, 239, 224, 0.10);
       transition: background 600ms ease, border-color 600ms ease;
     }
     .scrubber-slide[data-mood="celebration"] .scrub-phase,
     .scrubber-slide[data-mood="after-dark"] .scrub-phase {
-      background: rgba(10, 10, 30, 0.55);
-      border-color: rgba(201, 169, 110, 0.18);
+      background: rgba(6, 4, 18, 0.65);
+      border-color: rgba(201, 169, 110, 0.22);
     }
     .scrub-phase .ph-time {
       font-family: 'Playfair Display', serif;
@@ -891,15 +924,17 @@
     .scrub-axis {
       position: relative;
       padding: 30px 30px 16px;
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(10, 8, 18, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid rgba(244, 239, 224, 0.10);
       transition: background 600ms ease, border-color 600ms ease;
     }
     .scrubber-slide[data-mood="celebration"] .scrub-axis,
     .scrubber-slide[data-mood="after-dark"] .scrub-axis {
-      background: rgba(10, 10, 30, 0.45);
-      border-color: rgba(201, 169, 110, 0.18);
+      background: rgba(6, 4, 18, 0.55);
+      border-color: rgba(201, 169, 110, 0.22);
     }
     /* Scrub axis is now [← arrow] [track] [→ arrow] in a flex row. The
        arrows are the discoverability cue for users who don't realise
@@ -921,7 +956,7 @@
       width: 36px; height: 36px;
       border-radius: 50%;
       border: 1px solid var(--gold-soft);
-      background: rgba(255, 255, 255, 0.55);
+      background: rgba(244, 239, 224, 0.06);
       color: var(--gold);
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
@@ -1432,10 +1467,11 @@
     }
 
     /* ============================================================
-       Top-nav (counter + arrows + dots + fullscreen) — light version
+       Top-nav (counter + arrows + dots + fullscreen) — dark theme
        Quiet by default, expands on cursor proximity. Sits in the top-right
-       corner with a soft frosted-glass pill so it never competes with
-       the slide content.
+       corner with a soft frosted-dark pill so it never competes with
+       the slide content. Whole deck is dark now, so the previous
+       light/dark per-slide override is no longer needed.
        ============================================================ */
     .top-nav {
       position: fixed;
@@ -1445,10 +1481,10 @@
     }
     .top-nav__static {
       padding: 6px 12px;
-      background: rgba(255, 255, 255, 0.62);
+      background: rgba(20, 18, 28, 0.62);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(24, 20, 14, 0.10);
+      border: 1px solid rgba(244, 239, 224, 0.10);
       border-radius: 999px;
       font-size: 10.5px;
       color: var(--text-muted);
@@ -1458,22 +1494,22 @@
       white-space: nowrap;
       transition: opacity 240ms, background 240ms;
     }
-    .top-nav__static:hover { background: rgba(255, 255, 255, 0.82); }
+    .top-nav__static:hover { background: rgba(20, 18, 28, 0.85); }
     .top-nav__full {
       position: absolute;
       top: 0; right: 0;
       display: flex; align-items: center; gap: 4px;
       padding: 4px 8px 5px 12px;
-      background: rgba(255, 255, 255, 0.78);
+      background: rgba(20, 18, 28, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(24, 20, 14, 0.10);
+      border: 1px solid rgba(244, 239, 224, 0.10);
       color: var(--text);
       border-radius: 999px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 240ms;
-      box-shadow: 0 4px 14px rgba(24, 20, 14, 0.08);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
     }
     .top-nav.is-near .top-nav__full { opacity: 1; pointer-events: auto; }
     .top-nav.is-near .top-nav__static { opacity: 0; }
@@ -1485,7 +1521,7 @@
       border-radius: 999px;
       transition: background 180ms, color 180ms;
     }
-    .top-nav__full .arrow:hover { background: rgba(24, 20, 14, 0.06); color: var(--text); }
+    .top-nav__full .arrow:hover { background: rgba(244, 239, 224, 0.08); color: var(--text); }
     .top-nav__full .dots {
       display: flex; gap: 5px;
       padding: 0 10px;
@@ -1493,12 +1529,12 @@
     .top-nav__full .dot {
       width: 5px; height: 5px;
       border-radius: 50%;
-      background: rgba(24, 20, 14, 0.20);
+      background: rgba(244, 239, 224, 0.22);
       border: 0; cursor: pointer;
       padding: 0;
       transition: background 200ms, transform 200ms;
     }
-    .top-nav__full .dot:hover { background: rgba(24, 20, 14, 0.4); }
+    .top-nav__full .dot:hover { background: rgba(244, 239, 224, 0.45); }
     .top-nav__full .dot.is-active {
       background: var(--gold); transform: scale(1.5);
     }
@@ -1509,23 +1545,9 @@
       font-weight: 500;
       white-space: nowrap;
     }
-    /* On dark slides (hero + CTA), invert the nav so it stays readable. */
-    .slide.is-active.slide--ink ~ .top-nav .top-nav__static,
-    body:has(.slide.is-active.slide--ink) .top-nav__static {
-      background: rgba(20, 20, 28, 0.55);
-      border-color: rgba(255,255,255,0.10);
-      color: rgba(240, 237, 230, 0.7);
-    }
-    body:has(.slide.is-active.slide--ink) .top-nav__full {
-      background: rgba(20, 20, 28, 0.78);
-      border-color: rgba(255,255,255,0.10);
-      color: var(--ink-paper);
-    }
-    body:has(.slide.is-active.slide--ink) .top-nav__full .arrow { color: rgba(240, 237, 230, 0.65); }
-    body:has(.slide.is-active.slide--ink) .top-nav__full .arrow:hover { background: rgba(255,255,255,0.08); color: var(--ink-paper); }
-    body:has(.slide.is-active.slide--ink) .top-nav__full .dot { background: rgba(255,255,255,0.20); }
-    body:has(.slide.is-active.slide--ink) .top-nav__full .dot.is-active { background: var(--gold-light); }
-    body:has(.slide.is-active.slide--ink) .top-nav__full .counter { color: rgba(240, 237, 230, 0.6); }
+    /* Legacy .slide--ink-aware nav overrides removed — the whole deck
+       is dark in this build, so the base top-nav__* rules above are
+       already the right colour on every slide. */
 
     /* ============================================================
        Rotate prompt + begin-presentation overlay
@@ -2509,26 +2531,27 @@
        end-colour changes per mood; see updateScrubberBg() in the
        scrubber IIFE below.                                            */
     const MOOD_BG = {
-      // Match the bottom-right corner of each diagonal gradient so the
-      // backdrop blends invisibly with the scrubber slide.
-      dawn:        '#F0D4A6',
-      morning:     '#E9DDC4',
-      daytime:     '#DFD7C2',
-      cultural:    '#D4B581',
-      golden:      '#B8783A',
-      celebration: '#0F1130',
-      'after-dark':'#1A1530',
+      // Dark-mode mood colours — match the darker base of each Slide 7
+      // photo background so the bleed area around the canvas blends
+      // seamlessly with the active slide.
+      dawn:        '#0F0710',
+      morning:     '#0B0F1A',
+      daytime:     '#0A1014',
+      cultural:    '#1A0F08',
+      golden:      '#18080A',
+      celebration: '#050218',
+      'after-dark':'#04030A',
     };
     function updateBodyBg() {
       const active = slides[current];
       if (!active) return;
-      let bg = '#F7F4EF'; // parchment default
+      let bg = '#0F0E14'; // dark default (matches --bg)
       if (active.classList.contains('scrubber-slide')) {
         bg = MOOD_BG[active.dataset.mood] || bg;
       } else if (active.classList.contains('slide--ink')) {
-        bg = '#0A0A0F';
+        bg = '#060509';
       } else if (active.classList.contains('slide--cream')) {
-        bg = '#EDEAE2';
+        bg = '#14131C';
       }
       // Keep every layer outside the fixed canvas in sync. This avoids a
       // pale band if the canvas is scaled smaller than the viewport.
