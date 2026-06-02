@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0F">
-  <title>Horizons of Al Marmoom Festival — Pitch Draft</title>
+  <title>Horizons of Al&nbsp;Marmoom Festival — Pitch Draft</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -709,13 +709,43 @@
       background: rgba(201, 169, 110, 0.15); color: var(--gold-light);
       border-color: rgba(201, 169, 110, 0.3);
     }
+    .scrubber-slide.has-image-bg {
+      --scrubber-bg: url('assets/Slide%207/paradox_1.png');
+      background: var(--scrubber-bg) center / cover no-repeat;
+    }
+    .scrubber-slide.has-image-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(12, 7, 4, 0.70) 0%, rgba(12, 7, 4, 0.46) 42%, rgba(12, 7, 4, 0.18) 72%, rgba(12, 7, 4, 0.30) 100%),
+        linear-gradient(180deg, rgba(12, 7, 4, 0.36) 0%, rgba(12, 7, 4, 0.12) 46%, rgba(12, 7, 4, 0.52) 100%);
+    }
+    .scrubber-slide.has-image-bg > .stack-md,
+    .scrubber-slide.has-image-bg > .scrub-shell {
+      position: relative;
+      z-index: 1;
+    }
+    .scrubber-slide.has-image-bg .eyebrow {
+      color: #F4D58F;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.72);
+    }
+    .scrubber-slide.has-image-bg .display-l {
+      color: #FFF6E0;
+      text-shadow:
+        0 3px 14px rgba(0, 0, 0, 0.62),
+        0 1px 2px rgba(0, 0, 0, 0.78);
+    }
     .scrubber-slide .eyebrow,
     .scrubber-slide .display-l { transition: color 600ms ease; }
 
     .scrub-shell {
       margin-top: 28px;
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: auto auto;
+      align-content: space-between;
       gap: 28px;
       min-height: 0; flex: 1;
     }
@@ -859,6 +889,76 @@
     }
     .scrubber-slide[data-mood="celebration"] .scrub-tick.is-passed,
     .scrubber-slide[data-mood="after-dark"]  .scrub-tick.is-passed { background: var(--gold-light); }
+
+    .scrubber-slide.has-image-bg .scrub-axis {
+      background: linear-gradient(180deg, rgba(44, 28, 16, 0.64), rgba(22, 13, 8, 0.52));
+      border-color: rgba(255, 246, 224, 0.36);
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px) saturate(1.08);
+    }
+    .scrubber-slide.has-image-bg .scrub-track {
+      background: rgba(255, 246, 224, 0.28);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+    }
+    .scrubber-slide.has-image-bg .scrub-fill {
+      background: #D6A64F;
+    }
+    .scrubber-slide.has-image-bg .scrub-labels .lab {
+      font-size: 10.5px;
+      color: rgba(255, 248, 226, 0.88);
+      font-weight: 600;
+      text-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.72),
+        0 0 12px rgba(0, 0, 0, 0.36);
+    }
+    .scrubber-slide.has-image-bg .scrub-labels .lab:hover,
+    .scrubber-slide.has-image-bg .scrub-labels .lab.is-active {
+      color: #FFF8E4;
+      font-weight: 700;
+    }
+    .scrubber-slide.has-image-bg .scrub-tick {
+      background: #FFF6E0;
+      border-color: #C9943E;
+      box-shadow: 0 0 0 2px rgba(20, 12, 4, 0.28);
+    }
+    .scrubber-slide.has-image-bg .scrub-tick.is-passed {
+      background: #D6A64F;
+    }
+    .scrubber-slide.has-image-bg .scrub-handle {
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.30),
+        0 0 0 3px rgba(255, 246, 224, 0.22);
+    }
+    .scrubber-slide.has-image-bg .scrub-phase {
+      background: linear-gradient(180deg, rgba(36, 22, 13, 0.70), rgba(18, 11, 7, 0.62));
+      border-color: rgba(255, 246, 224, 0.32);
+      box-shadow:
+        0 20px 52px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px) saturate(1.08);
+    }
+    .scrubber-slide.has-image-bg .scrub-phase .ph-time,
+    .scrubber-slide.has-image-bg .scrub-phase .ph-mood {
+      color: #EAC06A;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.62);
+    }
+    .scrubber-slide.has-image-bg .scrub-phase h3 {
+      color: #FFF6E0;
+      text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.52),
+        0 1px 2px rgba(0, 0, 0, 0.72);
+    }
+    .scrubber-slide.has-image-bg .scrub-phase p {
+      color: rgba(255, 248, 226, 0.90);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.46);
+    }
+    .scrubber-slide.has-image-bg .scrub-phase .pill {
+      background: rgba(255, 246, 224, 0.12);
+      border-color: rgba(255, 246, 224, 0.34);
+      color: #FFF6E0;
+    }
 
     /* ============================================================
        Slide 8 — Differentiators
@@ -1325,7 +1425,7 @@
       <line x1="11" y1="18.5" x2="13" y2="18.5"/>
     </svg>
     <div class="stack-md">
-      <span class="eyebrow">Horizons of Al Marmoom</span>
+      <span class="eyebrow">Horizons of Al&nbsp;Marmoom</span>
       <h2>Rotate your device</h2>
       <p>This pitch is best experienced in landscape mode.</p>
     </div>
@@ -1339,7 +1439,7 @@
       </svg>
     </div>
     <div class="stack-md">
-      <span class="eyebrow">Horizons of Al Marmoom</span>
+      <span class="eyebrow">Horizons of Al&nbsp;Marmoom</span>
       <h2>Begin presentation</h2>
       <p>Enter full-screen presentation mode for the best experience.</p>
     </div>
@@ -1354,8 +1454,8 @@
         <div class="slide-bg" style="background-image: url('assets/01-hero-entrance.webp');"></div>
         <div class="slide-content">
           <div class="stack-lg">
-            <span class="eyebrow">Al Marmoom Desert Conservation Reserve · Dubai · National Day 2026</span>
-            <h1 class="display-xl">Horizons of<br>Al Marmoom Festival</h1>
+            <span class="eyebrow">Al&nbsp;Marmoom Desert Conservation Reserve · Dubai · National Day 2026</span>
+            <h1 class="display-xl">Horizons of<br>Al&nbsp;Marmoom Festival</h1>
             <p class="lede">A five day celebration of heritage, wonder, and the spirit of the UAE.</p>
             <div class="stat-row-4">
               <div><div class="stat-num-sm">5</div><div class="stat-lbl">Days · 2–6 Dec 2026</div></div>
@@ -1375,15 +1475,15 @@
         </div>
         <div class="vision-grid">
           <div class="vision-prose">
-            <p>Horizons of Al Marmoom Festival is a five day celebration of heritage, wonder, and the spirit of the UAE — created to honour the traditions that shaped the nation while embracing the innovation and vision that continue to define its future.</p>
+            <p>Horizons of Al&nbsp;Marmoom Festival is a five day celebration of heritage, wonder, and the spirit of the UAE — created to honour the traditions that shaped the nation while embracing the innovation and vision that continue to define its future.</p>
             <p>Through immersive experiences rooted in culture, conservation, exploration, and community, the festival invites guests to reconnect with the landscape, stories, and shared spirit of the Emirates.</p>
             <div class="vision-meta">
-              <div><div class="lbl">Location</div><div class="val">Al Marmoom Desert Conservation Reserve, near Al Qudra Lakes</div></div>
+              <div><div class="lbl">Location</div><div class="val">Al&nbsp;Marmoom Desert Conservation Reserve, near Al Qudra Lakes</div></div>
               <div><div class="lbl">Timing</div><div class="val">2–6 December 2026 · Wed–Sun · UAE National Day window</div></div>
               <div><div class="lbl">Format</div><div class="val">Immersive desert based cultural and entertainment festival</div></div>
             </div>
           </div>
-          <img src="assets/02-falconry-vision.webp" alt="Falconry — heritage in flight at Al Marmoom" loading="lazy" decoding="async" />
+          <img src="assets/02-falconry-vision.webp" alt="Falconry — heritage in flight at Al&nbsp;Marmoom" loading="lazy" decoding="async" />
         </div>
       </section>
 
@@ -1457,7 +1557,7 @@
         <div class="stack-md">
           <span class="eyebrow">The Journey</span>
           <h2 class="display-l">Four horizons. One desert night.</h2>
-          <p class="lede" style="max-width: 1100px;">The festival unfolds along four interwoven journey themes — each a different way to experience Al Marmoom.</p>
+          <p class="lede" style="max-width: 1100px;">The festival unfolds along four interwoven journey themes — each a different way to experience Al&nbsp;Marmoom.</p>
         </div>
         <div class="journey-shell" id="journeyShell">
           <nav class="journey-nav" aria-label="Journey themes">
@@ -1506,7 +1606,7 @@
             </div>
             <div class="journey-panel-slide" data-journey="desert">
               <h3>Desert</h3>
-              <p>Exploration through heritage drives, cultural experiences, conservation activities, and immersive discovery across the Al Marmoom landscape.</p>
+              <p>Exploration through heritage drives, cultural experiences, conservation activities, and immersive discovery across the Al&nbsp;Marmoom landscape.</p>
               <div class="anchors">
                 <div class="anchors-label">Anchor experiences</div>
                 <div class="anchors-list">
@@ -1535,15 +1635,15 @@
         <div class="stack-md">
           <span class="eyebrow">Site Masterplan · 11 Districts</span>
           <h2 class="display-l">A festival woven into the desert.</h2>
-          <p class="lede" style="max-width: 1200px;">Eleven districts spread across Al Marmoom — from the arrival gateway to the camping under the stars. Hover a pin to explore.</p>
+          <p class="lede" style="max-width: 1200px;">Eleven districts spread across Al&nbsp;Marmoom — from the arrival gateway to the camping under the stars. Hover a pin to explore.</p>
         </div>
         <div class="hotspot-shell">
           <div class="hotspot-map" id="hotspotMap">
-            <img src="assets/05-festival-site-clear.webp" alt="Horizons of Al Marmoom Festival — site masterplan with 11 districts" />
+            <img src="assets/05-festival-site-clear.webp" alt="Horizons of Al&nbsp;Marmoom Festival — site masterplan with 11 districts" />
             <!-- Pin positions locked-in from edit mode on 2026-06-01 -->
             <button class="hotspot-pin is-active" data-zone="1"  style="left: 47.3%; top: 90.4%;" type="button" aria-label="Horizons Arrival District">1</button>
             <button class="hotspot-pin" data-zone="2"  style="left: 36.1%; top: 55.3%;" type="button" aria-label="Heritage Camp District">2</button>
-            <button class="hotspot-pin" data-zone="3"  style="left: 78.9%; top: 30.8%;" type="button" aria-label="Skies of Al Marmoom District">3</button>
+            <button class="hotspot-pin" data-zone="3"  style="left: 78.9%; top: 30.8%;" type="button" aria-label="Skies of Al&nbsp;Marmoom District">3</button>
             <button class="hotspot-pin" data-zone="4"  style="left: 50.0%; top: 35.0%;" type="button" aria-label="Arena of Tradition">4</button>
             <button class="hotspot-pin" data-zone="5"  style="left: 78.5%; top: 55.3%;" type="button" aria-label="Future Horizons District">5</button>
             <button class="hotspot-pin" data-zone="6"  style="left: 56.1%; top: 59.3%;" type="button" aria-label="Family & Discovery Village">6</button>
@@ -1604,7 +1704,7 @@
             <div class="anchor-hero is-active" data-exp="glow">
               <img src="assets/06-glow-show.webp" alt="Glow Show & Lake Projection Spectacle" />
               <div>
-                <div class="ah-tag">★ Stars · Skies of Al Marmoom District</div>
+                <div class="ah-tag">★ Stars · Skies of Al&nbsp;Marmoom District</div>
                 <h3>Glow Show &amp; Lake Projection Spectacle</h3>
                 <p>A large scale immersive glow and projection experience across the lake, celebrating the spirit and story of the UAE through light, projection, and artistic storytelling.</p>
                 <div class="ah-meta">
@@ -1616,7 +1716,7 @@
             <div class="anchor-hero" data-exp="tether">
               <img src="assets/06-tethered-balloon.webp" alt="Tethered Balloon Flights" />
               <div>
-                <div class="ah-tag">★ Stars · Skies of Al Marmoom District</div>
+                <div class="ah-tag">★ Stars · Skies of Al&nbsp;Marmoom District</div>
                 <h3>Tethered Balloon Flights</h3>
                 <p>Elevated hot air balloon experiences overlooking the festival and desert landscape — a perspective that lifts the guest above the night spectacle and over the lake.</p>
                 <div class="ah-meta">
@@ -1628,9 +1728,9 @@
             <div class="anchor-hero" data-exp="sunrise">
               <img src="assets/06-sunrise-balloon.webp" alt="Sunrise Balloon Flights" />
               <div>
-                <div class="ah-tag">★ Stars · Skies of Al Marmoom District</div>
+                <div class="ah-tag">★ Stars · Skies of Al&nbsp;Marmoom District</div>
                 <h3>Sunrise Balloon Flights</h3>
-                <p>Premium sunrise flight experiences — exclusive journeys offering breathtaking views of Al Marmoom and the surrounding desert as the sky turns gold.</p>
+                <p>Premium sunrise flight experiences — exclusive journeys offering breathtaking views of Al&nbsp;Marmoom and the surrounding desert as the sky turns gold.</p>
                 <div class="ah-meta">
                   <div><div class="lbl">Emotional Impact</div><div class="val">Serene · Golden · Unforgettable</div></div>
                   <div><div class="lbl">Schedule</div><div class="val">Dawn · 5:00am Departures</div></div>
@@ -1640,7 +1740,7 @@
             <div class="anchor-hero" data-exp="astro">
               <img src="assets/06-astronomy.webp" alt="Astronomy Under the Desert Skies" />
               <div>
-                <div class="ah-tag">★ Stars · Skies of Al Marmoom District</div>
+                <div class="ah-tag">★ Stars · Skies of Al&nbsp;Marmoom District</div>
                 <h3>Astronomy Under the Desert Skies</h3>
                 <p>Guided stargazing experiences and astronomy talks beneath the desert night sky — connecting guests to the wonder of the cosmos far from the city's light.</p>
                 <div class="ah-meta">
@@ -1784,7 +1884,7 @@
       </section>
 
       <!-- ── 7 · DAILY FLOW / TIME SCRUBBER ───────────────────────── -->
-      <section class="slide scrubber-slide" data-slide="7" data-mood="dawn" id="scrubberSlide">
+      <section class="slide scrubber-slide has-image-bg" data-slide="7" data-mood="dawn" id="scrubberSlide">
         <div class="stack-md">
           <span class="eyebrow">From Dawn to Desert After Dark</span>
           <h2 class="display-l">A day that unfolds across<br>seven horizons.</h2>
@@ -1823,7 +1923,7 @@
         <div class="stack-md">
           <span class="eyebrow">What Makes Horizons Different</span>
           <h2 class="display-l">Not a festival.<br>A destination.</h2>
-          <p class="lede" style="max-width: 1200px;">Five qualities that set Horizons of Al Marmoom apart from every other National Day experience in the UAE.</p>
+          <p class="lede" style="max-width: 1200px;">Five qualities that set Horizons of Al&nbsp;Marmoom apart from every other National Day experience in the UAE.</p>
         </div>
         <div class="diff-grid">
           <div class="diff-card">
@@ -1849,7 +1949,7 @@
           <div class="diff-card">
             <div class="d-num">05</div>
             <h3>A Destination Festival</h3>
-            <p>Transforming Al Marmoom into a multi day cultural, educational, and entertainment destination.</p>
+            <p>Transforming Al&nbsp;Marmoom into a multi day cultural, educational, and entertainment destination.</p>
           </div>
         </div>
       </section>
@@ -2034,7 +2134,7 @@
         <div class="stack-md">
           <span class="eyebrow">Hero Experiences Group · Operator</span>
           <h2 class="display-l">Two decades of immersive<br>desert experience.</h2>
-          <p class="lede" style="max-width: 1300px;">For more than two decades, Hero Experiences Group has pioneered immersive desert experiences rooted in conservation, culture, and storytelling. Through award-winning tourism experiences, heritage preservation initiatives, large-scale event delivery, and a commitment to meaningful guest experiences, Hero is uniquely positioned to bring Horizons of Al Marmoom Festival to life.</p>
+          <p class="lede" style="max-width: 1300px;">For more than two decades, Hero Experiences Group has pioneered immersive desert experiences rooted in conservation, culture, and storytelling. Through award-winning tourism experiences, heritage preservation initiatives, large-scale event delivery, and a commitment to meaningful guest experiences, Hero is uniquely positioned to bring Horizons of Al&nbsp;Marmoom Festival to life.</p>
         </div>
         <div class="operator-creds">
           <div><div class="val">20+ Years</div><div class="lbl">Desert Experience Heritage</div></div>
@@ -2064,7 +2164,7 @@
             </ul>
           </div>
         </div>
-        <p class="pull-quote">"Hero is uniquely positioned to bring Horizons of Al Marmoom Festival to life."</p>
+        <p class="pull-quote">"Hero is uniquely positioned to bring Horizons of Al&nbsp;Marmoom Festival to life."</p>
       </section>
 
       <!-- ── 11 · THANK YOU / CTA ─────────────────────────────────── -->
@@ -2386,7 +2486,7 @@
       arrival:   SVG('<path d="M3 20V12a9 9 0 0 1 18 0v8"/><line x1="3" y1="20" x2="21" y2="20"/><line x1="8.5" y1="20" x2="8.5" y2="14.5"/><line x1="15.5" y1="20" x2="15.5" y2="14.5"/>'),
       // 2 Heritage Camp District — Bedouin tent
       camp:      SVG('<path d="M3 20L12 5l9 15"/><line x1="3" y1="20" x2="21" y2="20"/><path d="M9.5 20L12 16.5 14.5 20"/>'),
-      // 3 Skies of Al Marmoom — hot air balloon
+      // 3 Skies of Al&nbsp;Marmoom — hot air balloon
       balloon:   SVG('<ellipse cx="12" cy="9" rx="6" ry="7"/><path d="M8.5 14.8L10 19l2-3 2 3 1.5-4.2"/><rect x="10" y="18.5" width="4" height="2.5" rx="0.4"/>'),
       // 4 Arena of Tradition — falcon in flight
       falcon:    SVG('<path d="M3 13c3-2.5 6-3.5 9-3.5s6 1 9 3.5"/><path d="M3 13c2.5 2.5 5 3.5 9 3.5s6.5-1 9-3.5"/><circle cx="17" cy="11.2" r="0.7" fill="currentColor"/>'),
@@ -2407,9 +2507,9 @@
     };
 
     const zones = {
-      '1':  { name: 'Horizons Arrival District',          icon: ICONS.arrival, purpose: 'Create the first impression and transition guests from Dubai into the world of Horizons of Al Marmoom.',                            atmosphere: 'Lanterns, ambient music, projection moments, illuminated pathways, desert soundscapes.',  experiences: 'Welcome installations · Projection moments · Ticketing &amp; check-in · Sponsor welcome zone · Photo opportunities',                  time: 'Day &amp; Night' },
+      '1':  { name: 'Horizons Arrival District',          icon: ICONS.arrival, purpose: 'Create the first impression and transition guests from Dubai into the world of Horizons of Al&nbsp;Marmoom.',                            atmosphere: 'Lanterns, ambient music, projection moments, illuminated pathways, desert soundscapes.',  experiences: 'Welcome installations · Projection moments · Ticketing &amp; check-in · Sponsor welcome zone · Photo opportunities',                  time: 'Day &amp; Night' },
       '2':  { name: 'Heritage Camp District',             icon: ICONS.camp,    purpose: 'Celebrate traditional Emirati and Bedouin culture through immersive hospitality and storytelling.',                                       atmosphere: 'Warm, authentic, lantern lit, intimate, traditional, sensory driven.',                    experiences: 'Bedouin dining · Storytelling circles · Oud music · Coffee &amp; dates rituals · Crafts &amp; henna · Cultural workshops',         time: 'Primarily Evening' },
-      '3':  { name: 'Skies of Al Marmoom District',       icon: ICONS.balloon, purpose: 'Create the festival\'s signature visual and emotional spectacle celebrating exploration, skies, and wonder.',                              atmosphere: 'Dreamlike, awe inspiring, atmospheric, futuristic yet natural.',                          experiences: 'Glow show · Tethered balloon flights · Astronomy talks · Telescope experiences · Lake projections · Light installations',           time: 'Night' },
+      '3':  { name: 'Skies of Al&nbsp;Marmoom District',       icon: ICONS.balloon, purpose: 'Create the festival\'s signature visual and emotional spectacle celebrating exploration, skies, and wonder.',                              atmosphere: 'Dreamlike, awe inspiring, atmospheric, futuristic yet natural.',                          experiences: 'Glow show · Tethered balloon flights · Astronomy talks · Telescope experiences · Lake projections · Light installations',           time: 'Night' },
       '4':  { name: 'Arena of Tradition',                 icon: ICONS.falcon,  purpose: 'Showcase live heritage performances, demonstrations, competitions, and keynote sessions.',                                                 atmosphere: 'Energetic, dramatic, celebratory, culturally immersive, performance driven.',             experiences: 'Falconry shows · Saluki showcases · Camel displays · Archery demos · Keynote speakers · Cultural performances',                    time: 'Day &amp; Night' },
       '5':  { name: 'Future Horizons District',           icon: ICONS.future,  purpose: 'Connect heritage with innovation, creativity, sustainability, and the UAE\'s future vision.',                                              atmosphere: 'Interactive, inspiring, futuristic, educational, innovative.',                            experiences: 'Museum of the Future collaborations · Innovation exhibits · STEM activations · Space exploration themes · Youth workshops',         time: 'Day &amp; Evening' },
       '6':  { name: 'Family &amp; Discovery Village',     icon: ICONS.family,  purpose: 'Create engaging family focused entertainment and educational experiences.',                                                                 atmosphere: 'Playful, vibrant, interactive, energetic, welcoming.',                                    experiences: 'LEGO activations · Carnival games · Kids workshops · Educational stations · School activities · Junior ranger programs',           time: 'Day &amp; Night' },
@@ -2691,6 +2791,12 @@
       { mood: 'after-dark',  time: '10:00pm onwards',   name: 'Desert After Dark',            moodLine: 'Wonder · Reflection',                     body: 'Astronomy, storytelling circles, camping experiences, and guided night walks. Magical, intimate, peaceful — the desert holds you a while longer before letting you go.',                                  pills: ['Astronomy', 'Storytelling', 'Camping', 'Night Walks'],                 icon: '★' },
     ];
 
+    const phaseBackgrounds = phases.map((_, i) => `assets/Slide%207/paradox_${i + 1}.png`);
+    phaseBackgrounds.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
     const slide  = document.getElementById('scrubberSlide');
     const phaseEl = document.getElementById('scrubPhase');
     const track   = document.getElementById('scrubTrack');
@@ -2702,6 +2808,7 @@
     function render(idx) {
       const p = phases[idx];
       slide.setAttribute('data-mood', p.mood);
+      slide.style.setProperty('--scrubber-bg', `url("${phaseBackgrounds[idx]}")`);
       // Sync body bg to the new mood — covers older browsers where the
       // CSS `:has()` rule no-ops and the seam below the canvas would
       // otherwise stay parchment-coloured.
