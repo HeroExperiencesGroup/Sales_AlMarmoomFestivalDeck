@@ -1546,6 +1546,18 @@
       font-size: 15px; color: var(--ink-paper-dim);
       max-width: 320px;
     }
+    /* The splash .stack-md was sized to its widest child (the 380px
+       splash-interactive-note), which left the narrower 320px paragraph
+       pinned to the left edge of that stack — its centred text drifted
+       ~30px left of the h2 above. Making the splash's stack-md a flex
+       column with align-items center fixes every child at once without
+       changing the .stack-md spacing rule used elsewhere in the deck.   */
+    .rotate-prompt > .stack-md,
+    .tap-to-begin  > .stack-md {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .tap-to-begin { cursor: pointer; }
 
     /* ============================================================
