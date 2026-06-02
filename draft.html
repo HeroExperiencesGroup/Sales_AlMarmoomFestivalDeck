@@ -189,6 +189,29 @@
     .scrubber-slide[data-mood="after-dark"]  .interactive-badge .badge-dot {
       background: var(--gold-light);
     }
+    /* Splash-screen variant: rotate-prompt + tap-to-begin both sit on
+       --ink so the badge needs the dark-mood colour treatment.        */
+    .rotate-prompt .interactive-badge,
+    .tap-to-begin  .interactive-badge {
+      background: rgba(201, 169, 110, 0.10);
+      border-color: rgba(201, 169, 110, 0.4);
+      color: var(--gold-light);
+    }
+    .rotate-prompt .interactive-badge .badge-dot,
+    .tap-to-begin  .interactive-badge .badge-dot {
+      background: var(--gold-light);
+    }
+    .splash-interactive-note {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 380px;
+    }
+    .splash-hint {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--ink-paper-dim);
+    }
 
     /* Stat rows */
     .stat-row     { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; margin-top: 40px; }
@@ -1561,6 +1584,7 @@
       <span class="eyebrow">Horizons of Al&nbsp;Marmoom</span>
       <h2>Rotate your device</h2>
       <p>This pitch is best experienced in landscape mode.</p>
+      <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive Deck</span>
     </div>
   </div>
 
@@ -1575,6 +1599,10 @@
       <span class="eyebrow">Horizons of Al&nbsp;Marmoom</span>
       <h2>Begin presentation</h2>
       <p>Enter full-screen presentation mode for the best experience.</p>
+      <div class="splash-interactive-note">
+        <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive Deck</span>
+        <span class="splash-hint">Click pins, drag the time-scrubber, explore the themed tabs.</span>
+      </div>
     </div>
   </div>
 
