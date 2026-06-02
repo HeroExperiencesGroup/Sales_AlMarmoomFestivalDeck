@@ -138,6 +138,58 @@
     .stack-lg > * + * { margin-top: 36px; }
     .divider { width: 48px; height: 2px; background: var(--gold); margin: 4px 0 12px; }
 
+    /* ── Interactive badge ──────────────────────────────────────────
+       A subtle "Interactive" pill that sits next to a slide's eyebrow
+       on every slide that has a click / drag / hover interaction. The
+       tiny breathing dot is the visual cue; the label is a quiet hint
+       for first-time viewers. Same component, six slides.            */
+    .eyebrow-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .interactive-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 11px 4px 9px;
+      background: rgba(166, 124, 58, 0.08);
+      border: 1px solid var(--gold-soft);
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      line-height: 1;
+      user-select: none;
+    }
+    .interactive-badge .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: badgeBreathe 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes badgeBreathe {
+      0%, 100% { opacity: 1;    transform: scale(1); }
+      50%      { opacity: 0.38; transform: scale(0.65); }
+    }
+    /* Dark-mood overrides — celebration + after-dark on Slide 7 dim
+       the eyebrow gold; the badge follows so it stays readable.      */
+    .scrubber-slide[data-mood="celebration"] .interactive-badge,
+    .scrubber-slide[data-mood="after-dark"]  .interactive-badge {
+      background: rgba(201, 169, 110, 0.10);
+      border-color: rgba(201, 169, 110, 0.35);
+      color: var(--gold-light);
+    }
+    .scrubber-slide[data-mood="celebration"] .interactive-badge .badge-dot,
+    .scrubber-slide[data-mood="after-dark"]  .interactive-badge .badge-dot {
+      background: var(--gold-light);
+    }
+
     /* Stat rows */
     .stat-row     { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; margin-top: 40px; }
     .stat-row-4   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 40px; }
@@ -861,6 +913,29 @@
       transition: transform 80ms;
     }
     .scrub-handle:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.08); }
+    /* Pulse ring — invites the user to drag the handle. Stops the moment
+       they touch the scrubber (handle drag OR tick/label click), via JS
+       toggling .has-been-touched on the handle.                          */
+    .scrub-handle::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      animation: scrubHandlePulse 2.4s ease-out infinite;
+    }
+    .scrub-handle.has-been-touched::before {
+      animation: none;
+      opacity: 0;
+      display: none;
+    }
+    @keyframes scrubHandlePulse {
+      0%   { opacity: 0.7; transform: scale(0.7); }
+      75%  { opacity: 0;   transform: scale(1.75); }
+      100% { opacity: 0;   transform: scale(1.75); }
+    }
     .scrub-labels {
       display: flex; justify-content: space-between;
       margin-top: 22px;
@@ -1490,7 +1565,10 @@
       <!-- ── 3 · CORE PILLARS ─────────────────────────────────────── -->
       <section class="slide slide--paper" data-slide="3">
         <div class="stack-md">
-          <span class="eyebrow">Rooted in the Spirit of the Emirates</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Rooted in the Spirit of the Emirates</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">Six pillars. One story.</h2>
           <p class="lede" style="max-width: 1100px;">Every experience at Horizons is built around six pillars that shape the festival's identity. Hover or tap any pillar to see the experiences it inspires.</p>
         </div>
@@ -1555,7 +1633,10 @@
       <!-- ── 4 · THE JOURNEY ──────────────────────────────────────── -->
       <section class="slide slide--cream" data-slide="4">
         <div class="stack-md">
-          <span class="eyebrow">The Journey</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">The Journey</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">Four horizons. One desert night.</h2>
           <p class="lede" style="max-width: 1100px;">The festival unfolds along four interwoven journey themes — each a different way to experience Al&nbsp;Marmoom.</p>
         </div>
@@ -1633,7 +1714,10 @@
       <!-- ── 5 · DISTRICTS / HOTSPOT MAP ──────────────────────────── -->
       <section class="slide slide--paper" data-slide="5">
         <div class="stack-md">
-          <span class="eyebrow">Site Masterplan · 11 Districts</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Site Masterplan · 11 Districts</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">A festival woven into the desert.</h2>
           <p class="lede" style="max-width: 1200px;">Eleven districts spread across Al&nbsp;Marmoom — from the arrival gateway to the camping under the stars. Hover a pin to explore.</p>
         </div>
@@ -1670,7 +1754,10 @@
       <!-- ── 6 · ANCHOR EXPERIENCES (two-level tabs + carousel) ──── -->
       <section class="slide slide--paper" data-slide="6">
         <div class="stack-md">
-          <span class="eyebrow">Eleven Anchor Experiences</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Eleven Anchor Experiences</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">Eleven moments that define the festival.</h2>
         </div>
         <div class="tab-group anchor-shell" data-tabs data-anchor-group>
@@ -1886,7 +1973,10 @@
       <!-- ── 7 · DAILY FLOW / TIME SCRUBBER ───────────────────────── -->
       <section class="slide scrubber-slide has-image-bg" data-slide="7" data-mood="dawn" id="scrubberSlide">
         <div class="stack-md">
-          <span class="eyebrow">From Dawn to Desert After Dark</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">From Dawn to Desert After Dark</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">A day that unfolds across<br>seven horizons.</h2>
         </div>
         <div class="scrub-shell">
@@ -1957,7 +2047,10 @@
       <!-- ── 9 · PARTNERSHIPS & AUDIENCE ─────────────────────────── -->
       <section class="slide slide--paper" data-slide="9">
         <div class="stack-md">
-          <span class="eyebrow">Strategic Partnerships</span>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Strategic Partnerships</span>
+            <span class="interactive-badge" aria-hidden="true"><span class="badge-dot"></span>Interactive</span>
+          </div>
           <h2 class="display-l">Built for partners.<br>Designed for every guest.</h2>
           <p class="lede" style="max-width: 1200px;">Eight audience profiles — each unlocking a different set of partners. Tap an audience to see who reaches them best.</p>
         </div>
@@ -2867,6 +2960,18 @@
     window.addEventListener('pointermove', moveDrag);
     window.addEventListener('pointerup', endDrag);
     window.addEventListener('pointercancel', endDrag);
+
+    /* First-touch pulse: ring around the scrubber handle invites the
+       user to drag. Any meaningful interaction (handle drag, tick
+       click, label click, arrow key) marks the handle as "touched" and
+       the CSS animation halts.                                        */
+    function markTouched() { handle.classList.add('has-been-touched'); }
+    handle.addEventListener('pointerdown', markTouched, { once: true });
+    track.querySelectorAll('.scrub-tick').forEach(t =>
+      t.addEventListener('click', markTouched, { once: true }));
+    labelsEl.querySelectorAll('.lab').forEach(l =>
+      l.addEventListener('click', markTouched, { once: true }));
+    handle.addEventListener('keydown', markTouched, { once: true });
 
     // Keyboard on the handle
     handle.addEventListener('keydown', e => {
