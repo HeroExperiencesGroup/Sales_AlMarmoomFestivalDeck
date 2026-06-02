@@ -2590,14 +2590,16 @@
       pin.classList.add('is-selected');
       selectedPin = pin;
 
-      // 2. Set line endpoints, then trigger the draw animation on the
-      //    next frame so the dasharray reset takes effect.
-      line.setAttribute('x1', pinX.toFixed(2));
-      line.setAttribute('y1', pinY.toFixed(2));
-      line.setAttribute('x2', tx.toFixed(2));
-      line.setAttribute('y2', ty.toFixed(2));
-      lineEnd.setAttribute('cx', tx.toFixed(2));
-      lineEnd.setAttribute('cy', ty.toFixed(2));
+      // 2. Set line endpoints. Reversed direction: the line starts at
+      //    the popup and draws outward toward where the pin was. The
+      //    terminus dot lands at the pin's original spot so the eye
+      //    tracks "popup → here's where it came from".
+      line.setAttribute('x1', tx.toFixed(2));
+      line.setAttribute('y1', ty.toFixed(2));
+      line.setAttribute('x2', pinX.toFixed(2));
+      line.setAttribute('y2', pinY.toFixed(2));
+      lineEnd.setAttribute('cx', pinX.toFixed(2));
+      lineEnd.setAttribute('cy', pinY.toFixed(2));
 
       // 3. Position the popup at the line endpoint and prepare content.
       popup.style.left = tx + '%';
