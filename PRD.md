@@ -163,3 +163,24 @@ Before build, please confirm:
 - Bilingual EN/AR toggle
 - Map/GIS layer of the Al Marmoom site
 - Schools & youth programming sub-deck
+
+## 11. Slide 7 background refresh (planned, sources committed 2026-06-02)
+
+Slide 7 (Daily Flow / Time Scrubber) is moving from soft diagonal CSS gradients to **real desert environment photos per phase**, one image per phase, in phase order.
+
+| Phase | Source PNG | Converted WebP | Status |
+|---|---|---|---|
+| Dawn Horizons | `assets/Slide 7/paradox_1.png` | `assets/07-daily-flow-dawn-sand.webp` | converted, not yet wired |
+| Morning Awakening | `assets/Slide 7/paradox_2.png` | `assets/07-daily-flow-morning-sand.webp` | converted, not yet wired |
+| Daytime Exploration | `assets/Slide 7/paradox_3.png` | — | needs WebP + wiring |
+| Cultural Encounters | `assets/Slide 7/paradox_4.png` | — | needs WebP + wiring |
+| Golden Horizons | `assets/Slide 7/paradox_5.png` | — | needs WebP + wiring |
+| Celebration Under the Stars | `assets/Slide 7/paradox_6.png` | — | needs WebP + wiring |
+| Desert After Dark | `assets/Slide 7/paradox_7.png` | — | needs WebP + wiring |
+
+**Implementation note when wiring in:**
+1. Add the remaining 5 mappings to `scripts/convert-images.js` and re-run to generate the WebPs (suggested naming: `07-daily-flow-<phase>-sand.webp` to match the two already done).
+2. In `draft.html`, swap each `.scrubber-slide[data-mood="<phase>"] { background: linear-gradient(...) }` rule for `background: url('assets/07-daily-flow-<phase>-sand.webp') center/cover`.
+3. Update the JS `MOOD_BG` map (used by the bleed-backdrop) to the dominant ground colour of each photo, so the body bg blends past the canvas edge.
+4. Re-check the warm-mood label/tick contrast overrides on the scrubber axis — photo backgrounds may need different opacity on the white phase card and axis container than the gradient version did.
+5. Sanity test all 7 phases for title legibility; the existing dark-mood (celebration, after-dark) text overrides may need to expand to cover golden + cultural depending on how saturated the new photo bottoms are.
