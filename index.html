@@ -24,14 +24,13 @@
       --gold-light:  #E5C68A;          /* highlight, slightly lifted */
       --gold-soft:   rgba(201, 169, 110, 0.4);
 
-      /* Backgrounds — three dark variants with a clearer elevation step.
-         --bg-2 lifted from #1A1822 → #26243A on review feedback so cards
-         (pillars, journey buttons, hotspot info, anchor cards/hero, diff
-         cards, persona panels/tabs, operator creds, scrub-ticks) sit
-         clearly above the slide floor instead of feeling flush.        */
-      --bg:          #0F0E14;          /* default slide floor */
-      --bg-2:        #26243A;          /* elevated card / panel surface */
-      --bg-3:        #1A1825;          /* alt slide (mid-step) */
+      /* Backgrounds — greyish-blue palette. Cool slate hues complement
+         the warm gold accent. Three-step elevation: floor → mid-alt →
+         card. Earlier warm-purple values (#0F0E14 / #1A1825 / #26243A)
+         were shifted to a cool blue-grey on review feedback.            */
+      --bg:          #0F141C;          /* deep slate floor */
+      --bg-2:        #2A3344;          /* elevated greyish-blue card */
+      --bg-3:        #181E29;          /* alt slide (mid-step) */
 
       /* Text — warm cream */
       --text:        #F4EFE0;
@@ -2549,13 +2548,13 @@
     function updateBodyBg() {
       const active = slides[current];
       if (!active) return;
-      let bg = '#0F0E14'; // dark default (matches --bg)
+      let bg = '#0F141C'; // slate default (matches --bg)
       if (active.classList.contains('scrubber-slide')) {
         bg = MOOD_BG[active.dataset.mood] || bg;
       } else if (active.classList.contains('slide--ink')) {
         bg = '#060509';
       } else if (active.classList.contains('slide--cream')) {
-        bg = '#14131C';
+        bg = '#181E29';
       }
       // Keep every layer outside the fixed canvas in sync. This avoids a
       // pale band if the canvas is scaled smaller than the viewport.
