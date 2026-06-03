@@ -24,10 +24,14 @@
       --gold-light:  #E5C68A;          /* highlight, slightly lifted */
       --gold-soft:   rgba(201, 169, 110, 0.4);
 
-      /* Backgrounds — three subtle dark variants */
-      --bg:          #0F0E14;          /* default slide (was parchment) */
-      --bg-2:        #1A1822;          /* card / panel (was white) */
-      --bg-3:        #14131C;          /* alt slide (was cream) */
+      /* Backgrounds — three dark variants with a clearer elevation step.
+         --bg-2 lifted from #1A1822 → #26243A on review feedback so cards
+         (pillars, journey buttons, hotspot info, anchor cards/hero, diff
+         cards, persona panels/tabs, operator creds, scrub-ticks) sit
+         clearly above the slide floor instead of feeling flush.        */
+      --bg:          #0F0E14;          /* default slide floor */
+      --bg-2:        #26243A;          /* elevated card / panel surface */
+      --bg-3:        #1A1825;          /* alt slide (mid-step) */
 
       /* Text — warm cream */
       --text:        #F4EFE0;
